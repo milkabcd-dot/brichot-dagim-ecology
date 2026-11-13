@@ -39,28 +39,56 @@ label.o{display:inline-block;margin:2px 8px;padding:2px 8px;border-radius:8px;bo
 #total{position:sticky;bottom:0;background:var(--ac);color:#fff;text-align:center;padding:10px;font-weight:700}
 figure{margin:18px 0;text-align:center}figure img{max-width:100%;border:1px solid var(--bd);border-radius:10px;background:#fff}figcaption{color:var(--mu);font-size:.9rem}
 footer{text-align:center;color:var(--mu)}
+header.hero{max-width:none;margin:0;padding:34px 16px 40px;color:#fff;text-align:center;background:radial-gradient(circle at 15% 20%,rgba(255,255,255,.18),transparent 40%),linear-gradient(135deg,#0d5c63 0%,#2f7d5b 50%,#5aa469 100%);border-radius:0 0 34px 34px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.hero .hin{max-width:860px;margin:0 auto}
+.hero .kick{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:4px 18px;font-weight:700;letter-spacing:.5px}
+.hero h1{margin:.25em 0 .05em;color:#fff;font-size:clamp(2.2rem,7vw,3.8rem);font-weight:900;line-height:1.1;text-shadow:0 3px 0 rgba(0,0,0,.25),0 8px 22px rgba(0,0,0,.3)}
+.hero .sub{font-size:clamp(1.2rem,4vw,1.8rem);font-weight:700;color:#ffe98a;text-shadow:0 2px 6px rgba(0,0,0,.3)}
+.hero p{margin:.8em auto;max-width:620px;font-size:1.05rem}
+.hero .cr{display:inline-block;background:#fff;color:#1f5c45;border-radius:999px;padding:4px 18px;font-weight:700}
+#cf{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.mbcard{display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:linear-gradient(135deg,#1b1464,#3a1c71);color:#fff;border:3px solid #d4a72c;border-radius:18px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.mask{width:150px;aspect-ratio:1;border-radius:50%;overflow:hidden;flex:none;border:3px solid #d4a72c;background:#f4efe3}
+.mask img{width:100%;height:100%;object-fit:cover;transform:scale(1.12)}
+#mbq{flex:1;min-width:240px}
+#mbq .lead{font-weight:800;color:#ffd84d;font-size:1.1rem}
+#mbq .clue{background:rgba(255,255,255,.12);border-radius:12px;padding:10px 14px;margin:8px 0;font-size:1.05rem}
+.mba{display:flex;flex-wrap:wrap;gap:8px}
+#mbq button{margin:6px 0 0;background:#d4a72c;color:#2a1a00;font-weight:700}
+#mbq .ans{background:#fff;color:#1b1464;border:2px solid #d4a72c;margin:0}
+#mbq .ans.good{background:#2e9e57;color:#fff;border-color:#2e9e57}
+#mbq .ans.bad{background:#7a2a2a;color:#fff;opacity:.6;text-decoration:line-through;animation:shake .3s}
+.unmask{display:flex;gap:12px;align-items:center;margin-top:10px}
+.unmask .ph{height:90px;width:160px}
+.unmask img{height:90px;max-width:160px;object-fit:contain;background:#fff;border-radius:10px;padding:4px}
+.mbs{margin:8px 0;font-weight:700;color:var(--ac)}
+.snd{cursor:pointer;color:var(--ac);font-size:.9rem;margin-inline-start:10px;user-select:none}
+@keyframes shake{25%{transform:translateX(6px)}75%{transform:translateX(-6px)}}
 </style>
 </head>
 <body>
-<header>
-<h1>🦆 נוף עוטף בית ספר – בריכות הדגים ועופות המים</h1>
+<header class="hero"><div class="hin">
+<div class="kick">🦆 פעילות אקולוגית אינטראקטיבית</div>
+<h1>נוף עוטף בית ספר</h1>
+<div class="sub">בריכות הדגים ועופות המים</div>
 <p>חידון מקוון. גררו את המילים למקום הנכון (במסך מגע: לחצו על מילה ואז על המקום), ולחצו "בדיקה".</p>
-<p><b>© מילכה ברקו גרש</b></p>
-</header>
+<span class="cr">© מילכה ברקו גרש</span>
+</div></header>
 <script>window.onerror=function(m,u,l){document.body.insertAdjacentHTML('afterbegin','<pre style="background:#fee;color:#900;padding:8px;direction:ltr;white-space:pre-wrap">JS error: '+m+' (line '+l+')</pre>')}</script>
 <main id="m"></main>
 <div id="total">ציון: –</div>
+<canvas id="cf"></canvas>
 <footer>© מילכה ברקו גרש · עבודה נעימה!</footer>
 <script>
 /* ===== נתונים. אפשר לערוך כאן טקסטים ותשובות ===== */
-const BEAKS=[ // [קובץ תמונה, שם העוף, מספר ההסבר, הסבר]
- ["beak-pelican","שקנאי",1,"מקור ארוך, קצהו מחודד, קרום גרון אלסטי, ניזון מדגים"],
- ["beak-kharatomit","חרטומית",2,"מקור עדין – חיטוט ונעיצת המקור בבוץ לחיפוש הטרף"],
- ["beak-duck","ברווז",3,"מקור שטוח ורחב ובשוליו שיניים קרניות – יחד עם הלשון מסנן זרעים, עלים, תולעים וסרטנים"],
- ["beak-kafan","כפן",4,"מקור דמוי כף – מזון: סרטנים, רכיכות, תולעים, חרקי מים, דגיגים קטנים, זרעים של צמחי מים"],
- ["beak-sayfan","סייפן",5,"מקור נטוי כלפי מעלה, \"קוצר את מזונו\" בתנועות ראש מצד לצד – ניזון מחרקים, סרטנים ותולעים"],
- ["beak-flamingo","פלמינגו",6,"סינון חלקיקים מהמים"],
- ["beak-cormorant","קורמורן",7,"מקור ארוך ומעוקם בחדות בסופו – אוכל דגים ואפילו נחשי מים"]];
+const BEAKS=[ // [קובץ תמונה, שם העוף, מספר, הסבר]
+ ["beak-pelican","שקנאי",1,"מקור ארוך, קצהו מחודד, קרום גרון אלסטי, ניזון מדגים."],
+ ["beak-kharatomit","חרטומית",2,"מקור עדין, דק וארוך – חיטוט ונעיצת המקור בבוץ לחיפוש הטרף."],
+ ["beak-duck","ברווז",3,"מקור שטוח ורחב, ובשוליו שיניים קרניות – יחד עם הלשון מסנן את הפירורים במים: זרעים, עלים, תולעים שונות וסרטנים."],
+ ["beak-kafan","כפן",4,"מקור דמוי כף, מזון: סרטנים, רכיכות, תולעים, חרקי מים, דגיגים קטנים, זרעים של צמחי מים."],
+ ["beak-sayfan","סייפן",5,"מקור נטוי כלפי מעלה, \"קוצר את מזונו\" בתנועות ראש מצד לצד. ניזון מחרקים, סרטנים ותולעים."],
+ ["beak-flamingo","פלמינגו",6,"מקור עבה ומעוקל כלפי מטה, בעל לוחיות סינון זעירות – מסנן את המים והבוץ בעזרת תנועות הלשון והמקור, ולוכד סרטנים זעירים, אצות ואורגניזמים קטנים."],
+ ["beak-cormorant","קורמורן",7,"מקור ארוך, ישר ומחודד בקצהו, בעל וו קטן בקצה העליון – לוכד באמצעותו דגים, שאותם הוא תופס מתחת למים. ניזון בעיקר מדגים."]];
 const EXT=['png','jpg','jpeg','webp','PNG','JPG','JPEG'],DIRS=['images/',''];
 const CAND=b=>DIRS.flatMap(d=>EXT.map(x=>d+b+'.'+x));
 function nx(el){const c=CAND(el.dataset.b),i=+el.dataset.i+1;if(i<c.length){el.dataset.i=i;el.src=c[i]}else el.outerHTML='<div class=ph>'+el.dataset.b+'</div>'}
@@ -72,7 +100,7 @@ const sel=(a,opts)=>`<select data-a="${a}"><option value="">בחרו…</option>
 const mc=(name,a,opts)=>opts.map(o=>`<label class="o"><input type="radio" name="${name}" value="${o}" data-a="${a}"> ${o}</label>`).join('');
 const S=[];
 /* 1 */
-S.push({t:"תרשים זרימה 1: נוף עוטף בית ספר",i:"שבצו את המילים מ\"בנק המילים\" בתרשים. אפשר למקם את שני סוגי בתי הגידול בכל צד, והדוגמה שמתחת לכל אחד צריכה להתאים לו.",
+S.push({pre:`<figure>${pic('diagram-1','נוף עוטף בית ספר – מבוא')}<figcaption>תרשים זרימה 1 – נוף עוטף בית ספר</figcaption></figure>`,t:"תרשים זרימה 1: נוף עוטף בית ספר",i:"שבצו את המילים מ\"בנק המילים\" בתרשים. אפשר למקם את שני סוגי בתי הגידול בכל צד, והדוגמה שמתחת לכל אחד צריכה להתאים לו.",
  h:`<div class="pool">${chips(shuf([["top","נוף עוטף בית ספר"],["nat","בתי גידול טבעיים"],["art","בתי גידול מלאכותיים"],["stream","נחל תנינים"],["pond","בריכות דגים"]]))}</div>
  <div class="tree"><div class="top">${zone('top')}</div><div class="lbl">כולל</div><div class="lbl">כולל</div>
  <div>${zone('m1')}</div><div>${zone('m2')}</div><div class="lbl">כמו</div><div class="lbl">כמו</div><div>${zone('l1')}</div><div>${zone('l2')}</div></div>
@@ -87,14 +115,15 @@ S.push({pre:`<figure>${pic('diagram-2','תרשים זרימה 2: בריכות ד
  <p class="ins">בתרשים, הגורמים יכולים להשפיע זה על זה. בחרו לכל זוג את סוג ההשפעה.</p>
  ${shuf([["שיפוע הגדות","ריכוז החמצן",1],["עומק המים","ריכוז החמצן",1],["ריכוז החמצן","צפיפות הדגים",0],["צפיפות הדגים","מספר ומגוון העופות",0],["מספר ומגוון העופות","צמחיית הגדה",0],["שיפוע הגדות","צמחיית הגדה",0],["שיפוע הגדות","מספר ומגוון העופות",1],["עומק המים","מספר ומגוון העופות",1]]).map(([A,B,o])=>`<div class="row"><span>בין <b>${A}</b> לבין <b>${B}</b>:</span>${sel(o?`${A} משפיע על ${B}`:'השפעה הדדית',[`${A} משפיע על ${B}`,`${B} משפיע על ${A}`,'השפעה הדדית'])}</div>`).join('')}`});
 /* 3 */
-S.push({t:"תרשים זרימה 3: תצפית עופות בבריכות הדגים",i:"עופות ניתן למיין לפי מבנה גוף, סוג המזון ושהות בארץ. מיינו כל מילה לקבוצה המתאימה.",
+S.push({t:"תצפית עופות בבריכות הדגים – מיון",i:"עופות ניתן למיין לפי מבנה גוף, סוג המזון ושהות בארץ. מיינו כל מילה לקבוצה המתאימה.",
  h:`<div class="pool">${chips(shuf([["body","מקור"],["body","צוואר"],["body","צבע הגוף"],["body","רגליים"],["body","גודל הגוף"],["body","סימנים מיוחדים"],["food","פגרי דגים"],["food","חסרי חוליות קטנים"],["food","דגים ודגיגונים"],["food","פלנקטון"],["food","מזון צמחי"],["stay","חולפות"],["stay","חורפות"],["stay","מקייצות"],["stay","יציבות"]]))}</div>
  <div class="baskets" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))"><div><b>מבנה גוף</b>${zone('body',0)}</div><div><b>סוג המזון</b>${zone('food',0)}</div><div><b>שהות בארץ</b>${zone('stay',0)}</div></div>`});
 /* 4 */
-S.push({t:"תרשים 4: התאמת מבנה לתפקיד – מקור",i:"א. גררו את שם העוף אל התמונה שלו. ב. התאימו לכל עוף את ההסבר המתאים.",
+S.push({t:"תרשים 4: התאמת מבנה לתפקיד – מקור",i:"א. גררו את שם העוף אל התמונה שלו. ב. עופות במסכה: קראו את הרמז וגלו מי אני.",
  h:`<div class="pool">${chips(shuf(BEAKS.map(b=>[b[1],b[1]])))}</div>
  <div class="cards">${BEAKS.map(b=>`<div class="card">${pic(b[0],'מקור של '+b[1])}${zone(b[1])}</div>`).join('')}</div>
- <h3>ב. התאמת הסבר</h3>${shuf(BEAKS).map(b=>`<div class="row"><span>${b[3]} ←</span>${sel(b[1],BEAKS.map(x=>x[1]))}</div>`).join('')}`,
+ <h3>ב. עופות במסכה – מי אני ומה שמי?</h3>
+ <div id="mb"><div class="mbcard"><div class="mask">${pic('masked-birds-icon','עופות במסכה – מי אני?')}</div><div id="mbq"></div></div><div class="mbs"><span id="mbs"></span><span class="snd" id="snd" role="button" tabindex="0">🔊 צליל פועל</span></div></div>`,
  ck:'beak'});
 /* 5 */
 S.push({t:"דף עבודה 5: אוכלי דגים – התאמת מבנה ותפקיד",i:"השלימו את החסר ובחרו את התשובה הנכונה.",
@@ -137,9 +166,36 @@ function check(e,n){let ok=0,tot=0;
 function reset(e,n){e.querySelectorAll('.zone .chip').forEach(c=>{pool(e).append(c)});
  e.querySelectorAll('.ok,.no').forEach(x=>x.classList.remove('ok','no'));
  e.querySelectorAll('select').forEach(s=>s.value='');e.querySelectorAll('input').forEach(i=>i.checked=false);
- e.querySelector('.fb').textContent='';delete res[n];upd()}
+ e.querySelector('.fb').textContent='';delete res[n];upd();if(e.id==='s3')mbNew()}
 function upd(){let o=0,t=0;Object.values(res).forEach(([a,b])=>{o+=a;t+=b});
  document.getElementById('total').textContent=t?`ציון: ${Math.round(o/t*100)} (${o}/${t}) · נבדקו ${Object.keys(res).length} מתוך ${S.length} חלקים`:'ציון: –'}
+
+/* ===== עופות במסכה: חידות מתחלפות, תרועה וקונפטי ===== */
+const MB={deck:[],i:0,solved:0,lock:0,sound:true};
+function beep(f,t,d,type,v){try{const a=MB.ac||(MB.ac=new(window.AudioContext||window.webkitAudioContext)());const o=a.createOscillator(),g=a.createGain(),T=a.currentTime+t;o.type=type;o.frequency.value=f;g.gain.setValueAtTime(0,T);g.gain.linearRampToValueAtTime(v,T+.02);g.gain.exponentialRampToValueAtTime(.001,T+d);o.connect(g);g.connect(a.destination);o.start(T);o.stop(T+d+.05)}catch(x){}}
+function fanfare(){if(MB.sound)[[523,0,.15],[659,.15,.15],[784,.3,.15],[1047,.45,.5],[784,.45,.5],[1319,.75,.6]].forEach(([f,t,d])=>beep(f,t,d,'triangle',.2))}
+function oops(){if(MB.sound)beep(180,0,.25,'sawtooth',.08)}
+function confetti(){const c=document.getElementById('cf'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;
+ const cols=['#e63946','#f4a261','#ffd60a','#2a9d8f','#4361ee','#b5179e'];
+ const P=Array.from({length:180},()=>({x:innerWidth/2+(Math.random()-.5)*200,y:innerHeight*.45,vx:(Math.random()-.5)*16,vy:-Math.random()*16-4,r:Math.random()*6.28,vr:(Math.random()-.5)*.4,w:6+Math.random()*6,h:8+Math.random()*8,c:cols[Math.random()*6|0]}));
+ let f=0;(function tick(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.vx*=.99;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.w/2,-p.h/2,p.w,p.h);x.restore()});if(++f<150)requestAnimationFrame(tick);else x.clearRect(0,0,c.width,c.height)})()}
+function mbNew(){MB.deck=shuf(BEAKS);MB.i=0;MB.solved=0;MB.lock=0;mbShow()}
+function mbShow(){const q=document.getElementById('mbq'),b=MB.deck[MB.i];
+ document.getElementById('mbs').textContent='נפתרו: '+MB.solved+' מתוך '+BEAKS.length;
+ if(!b){q.innerHTML='<div class="lead">🎉 כל הכבוד! גיליתם את כל העופות במסכה</div><button>שחקו שוב</button>';q.querySelector('button').onclick=mbNew;return}
+ const opts=shuf([b,...shuf(BEAKS.filter(x=>x!==b)).slice(0,3)]);
+ q.innerHTML=`<div class="lead">חידה ${MB.i+1} מתוך ${BEAKS.length}: מי אני ומה שמי?</div><div class="clue">${b[3]}</div><div class="mba">${opts.map(o=>`<button class="ans" data-n="${o[1]}">${o[1]}</button>`).join('')}</div><div class="rev"></div>`;
+ q.querySelectorAll('.ans').forEach(a=>a.onclick=()=>mbPick(a,b))}
+function mbPick(a,b){if(MB.lock||a.classList.contains('bad'))return;const q=document.getElementById('mbq');
+ if(a.dataset.n===b[1]){MB.lock=1;a.classList.add('good');MB.solved++;fanfare();confetti();
+  q.querySelectorAll('.ans').forEach(x=>x.disabled=true);
+  q.querySelector('.rev').innerHTML=`<div class="unmask">${pic(b[0],'המקור של '+b[1])}<div><b>אני ${b[1]}!</b> המסכה יורדת 🎭</div></div><button id="mbn">${MB.i+1<BEAKS.length?'החידה הבאה ◀':'לסיום ◀'}</button>`;
+  document.getElementById('mbs').textContent='נפתרו: '+MB.solved+' מתוך '+BEAKS.length;
+  q.querySelector('#mbn').onclick=()=>{MB.i++;MB.lock=0;mbShow()}}
+ else{a.classList.add('bad');oops()}}
+const snd=document.getElementById('snd');
+snd.onclick=()=>{MB.sound=!MB.sound;snd.textContent=MB.sound?'🔊 צליל פועל':'🔇 צליל כבוי'};
+mbNew();
 </script>
 </body>
 </html>
