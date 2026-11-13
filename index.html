@@ -47,6 +47,7 @@ footer{text-align:center;color:var(--mu)}
 <p>חידון מקוון. גררו את המילים למקום הנכון (במסך מגע: לחצו על מילה ואז על המקום), ולחצו "בדיקה".</p>
 <p><b>© מילכה ברקו גרש</b></p>
 </header>
+<script>window.onerror=function(m,u,l){document.body.insertAdjacentHTML('afterbegin','<pre style="background:#fee;color:#900;padding:8px;direction:ltr;white-space:pre-wrap">JS error: '+m+' (line '+l+')</pre>')}</script>
 <main id="m"></main>
 <div id="total">ציון: –</div>
 <footer>© מילכה ברקו גרש · עבודה נעימה!</footer>
@@ -59,4 +60,86 @@ const BEAKS=[ // [קובץ תמונה, שם העוף, מספר ההסבר, הס�
  ["beak-kafan","כפן",4,"מקור דמוי כף – מזון: סרטנים, רכיכות, תולעים, חרקי מים, דגיגים קטנים, זרעים של צמחי מים"],
  ["beak-sayfan","סייפן",5,"מקור נטוי כלפי מעלה, \"קוצר את מזונו\" בתנועות ראש מצד לצד – ניזון מחרקים, סרטנים ותולעים"],
  ["beak-flamingo","פלמינגו",6,"סינון חלקיקים מהמים"],
- ["beak-cormorant","קורמורן",7,"מקור ארוך ומעוקם בחדות בסופו – אוכל דגים ואפילו נחשי
+ ["beak-cormorant","קורמורן",7,"מקור ארוך ומעוקם בחדות בסופו – אוכל דגים ואפילו נחשי מים"]];
+const EXT=['png','jpg','jpeg','webp','PNG','JPG','JPEG'],DIRS=['images/',''];
+const CAND=b=>DIRS.flatMap(d=>EXT.map(x=>d+b+'.'+x));
+function nx(el){const c=CAND(el.dataset.b),i=+el.dataset.i+1;if(i<c.length){el.dataset.i=i;el.src=c[i]}else el.outerHTML='<div class=ph>'+el.dataset.b+'</div>'}
+const pic=(base,alt)=>`<img src="images/${base}.png" alt="${alt}" data-b="${base}" data-i="0" onerror="nx(this)">`;
+const shuf=a=>[...a].sort(()=>Math.random()-.5);
+const chips=(l)=>l.map(([k,t])=>`<span class="chip" draggable="true" data-z="${k}">${t}</span>`).join('');
+const zone=(z,cap=1,extra='')=>`<div class="zone ${cap?'cap':''}" data-zone="${z}" data-cap="${cap}">${extra}</div>`;
+const sel=(a,opts)=>`<select data-a="${a}"><option value="">בחרו…</option>${opts.map(o=>`<option>${o}</option>`).join('')}</select>`;
+const mc=(name,a,opts)=>opts.map(o=>`<label class="o"><input type="radio" name="${name}" value="${o}" data-a="${a}"> ${o}</label>`).join('');
+const S=[];
+/* 1 */
+S.push({t:"תרשים זרימה 1: נוף עוטף בית ספר",i:"שבצו את המילים מ\"בנק המילים\" בתרשים. אפשר למקם את שני סוגי בתי הגידול בכל צד, והדוגמה שמתחת לכל אחד צריכה להתאים לו.",
+ h:`<div class="pool">${chips(shuf([["top","נוף עוטף בית ספר"],["nat","בתי גידול טבעיים"],["art","בתי גידול מלאכותיים"],["stream","נחל תנינים"],["pond","בריכות דגים"]]))}</div>
+ <div class="tree"><div class="top">${zone('top')}</div><div class="lbl">כולל</div><div class="lbl">כולל</div>
+ <div>${zone('m1')}</div><div>${zone('m2')}</div><div class="lbl">כמו</div><div class="lbl">כמו</div><div>${zone('l1')}</div><div>${zone('l2')}</div></div>
+ <p class="row">בין בתי גידול טבעיים למלאכותיים ההשפעה היא: ${mc('q1a','הדדית',['הדדית','חד-כיוונית'])}</p>
+ <p class="row">בין נחל תנינים לבריכות דגים ההשפעה היא: ${mc('q1b','הדדית',['הדדית','חד-כיוונית'])}</p>`});
+/* 2 */
+S.push({pre:`<figure>${pic('diagram-2','תרשים זרימה 2: בריכות דגים – היבט אקולוגי')}<figcaption>תרשים זרימה 2 – בריכות דגים: היבט אקולוגי</figcaption></figure>`,t:"תרשים זרימה 2: בריכות דגים – היבט אקולוגי",i:"מיינו כל גורם: האם הוא גורם אביוטי או ביוטי?",
+ h:`<div class="pool">${chips(shuf([["ab","עומק המים"],["ab","ריכוז החמצן"],["ab","שיפוע הגדות"],["bi","צמחיית הגדה"],["bi","צפיפות הדגים"],["bi","מספר ומגוון העופות"]]))}</div>
+ <div class="baskets"><div><b>גורמים אביוטיים</b>${zone('ab',0)}</div><div><b>גורמים ביוטיים</b>${zone('bi',0)}</div></div>
+ <p class="row">גורמים ביוטיים הם: ${mc('q2','גורמים חיים',['גורמים חיים','גורמים דוממים'])}</p>
+ <h3>החיצים המקווקווים: מי משפיע על מי?</h3>
+ <p class="ins">בתרשים, הגורמים יכולים להשפיע זה על זה. בחרו לכל זוג את סוג ההשפעה.</p>
+ ${shuf([["שיפוע הגדות","ריכוז החמצן",1],["עומק המים","ריכוז החמצן",1],["ריכוז החמצן","צפיפות הדגים",0],["צפיפות הדגים","מספר ומגוון העופות",0],["מספר ומגוון העופות","צמחיית הגדה",0],["שיפוע הגדות","צמחיית הגדה",0],["שיפוע הגדות","מספר ומגוון העופות",1],["עומק המים","מספר ומגוון העופות",1]]).map(([A,B,o])=>`<div class="row"><span>בין <b>${A}</b> לבין <b>${B}</b>:</span>${sel(o?`${A} משפיע על ${B}`:'השפעה הדדית',[`${A} משפיע על ${B}`,`${B} משפיע על ${A}`,'השפעה הדדית'])}</div>`).join('')}`});
+/* 3 */
+S.push({t:"תרשים זרימה 3: תצפית עופות בבריכות הדגים",i:"עופות ניתן למיין לפי מבנה גוף, סוג המזון ושהות בארץ. מיינו כל מילה לקבוצה המתאימה.",
+ h:`<div class="pool">${chips(shuf([["body","מקור"],["body","צוואר"],["body","צבע הגוף"],["body","רגליים"],["body","גודל הגוף"],["body","סימנים מיוחדים"],["food","פגרי דגים"],["food","חסרי חוליות קטנים"],["food","דגים ודגיגונים"],["food","פלנקטון"],["food","מזון צמחי"],["stay","חולפות"],["stay","חורפות"],["stay","מקייצות"],["stay","יציבות"]]))}</div>
+ <div class="baskets" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))"><div><b>מבנה גוף</b>${zone('body',0)}</div><div><b>סוג המזון</b>${zone('food',0)}</div><div><b>שהות בארץ</b>${zone('stay',0)}</div></div>`});
+/* 4 */
+S.push({t:"תרשים 4: התאמת מבנה לתפקיד – מקור",i:"א. גררו את שם העוף אל התמונה שלו. ב. התאימו לכל עוף את ההסבר המתאים.",
+ h:`<div class="pool">${chips(shuf(BEAKS.map(b=>[b[1],b[1]])))}</div>
+ <div class="cards">${BEAKS.map(b=>`<div class="card">${pic(b[0],'מקור של '+b[1])}${zone(b[1])}</div>`).join('')}</div>
+ <h3>ב. התאמת הסבר</h3>${shuf(BEAKS).map(b=>`<div class="row"><span>${b[3]} ←</span>${sel(b[1],BEAKS.map(x=>x[1]))}</div>`).join('')}`,
+ ck:'beak'});
+/* 5 */
+S.push({t:"דף עבודה 5: אוכלי דגים – התאמת מבנה ותפקיד",i:"השלימו את החסר ובחרו את התשובה הנכונה.",
+ h:(()=>{const W=["תצפית","המתרחב","מהירה","מתחתם"];return`
+ <p>מקור דמוי פגיון: ללוכדי דגים מעמדת ${sel('תצפית',W)} מחוץ למים, בתנועת מקור ${sel('מהירה',W)} וחטופה (אנפה, שלדג).</p>
+ <p>מקור דק וצר עם קצה כפוף: ללוכדים את הדגים תוך כדי שחייה, מעל פני המים או ${sel('מתחתם',W)} (קורמורן, מרגון).</p>
+ <p>מקור ${sel('המתרחב',W)} לשק גדול – ללכידת דגים, כמו אצל השקנאי.</p>
+ <p>מקור רחב עם לוחיות קרניות לסינון, יחד עם הלשון, יש ל… ${mc('ס1','ברווזים',['ברווזים','נשרים','דרורים','סיפנים','חרטומיות'])}</p>
+ <p>מקור ${mc('ס2','כפוף',['ישר','כפוף'])} כמו לפלמינגו, שבשוליו לוחיות קרניות, ופועל כמו מחפרון.</p>
+ <p><b>סמנו את העופות שניזונים מדגים:</b> ${[["שקנאי",1],["קורמורן",1],["כפן",0],["פלמינגו",0],["ברווז",0],["סייפן",0]].map(([n,c])=>`<label class="o"><input type="checkbox" data-c="${c}"> ${n}</label>`).join('')}</p>`})()});
+
+/* ===== מנוע ===== */
+const M=document.getElementById('m');let selected=null;const res={};
+S.forEach((s,n)=>{const e=document.createElement('section');e.id='s'+n;
+ e.innerHTML=`<h2>${n+1}. ${s.t}</h2><p class="ins">${s.i}</p>${s.pre||''}${s.h}<button>בדיקה</button><button class="g">איפוס</button><span class="fb"></span>`;
+ const[b1,b2]=e.querySelectorAll('button');b1.onclick=()=>check(e,n);b2.onclick=()=>reset(e,n);M.append(e)});
+function pool(e){return e.querySelector('.pool')}
+function put(chip,z){const cap=z.dataset.cap==='1';
+ if(cap&&z.querySelector('.chip')){const o=z.querySelector('.chip');(pool(z.closest('section'))).append(o)}
+ z.append(chip);chip.classList.remove('sel','ok','no');selected=null}
+document.addEventListener('dragstart',e=>{if(e.target.classList?.contains('chip'))selected=e.target});
+document.addEventListener('dragover',e=>e.preventDefault());
+document.addEventListener('drop',e=>{const z=e.target.closest('.zone,.pool');if(z&&selected){put(selected,z)}});
+document.addEventListener('click',e=>{const c=e.target.closest('.chip');
+ if(c){document.querySelectorAll('.chip.sel').forEach(x=>x.classList.remove('sel'));selected=c;c.classList.add('sel');return}
+ const z=e.target.closest('.zone,.pool');if(z&&selected)put(selected,z)});
+function mark(el,ok){el.classList.remove('ok','no');el.classList.add(ok?'ok':'no')}
+function check(e,n){let ok=0,tot=0;
+ if(e.id==='s0'){const G=k=>{const c=e.querySelector('[data-zone="'+k+'"] .chip');return c?c.dataset.z:null};
+  const pr={nat:'stream',art:'pond'},t=G('top'),m1=G('m1'),m2=G('m2'),l1=G('l1'),l2=G('l2');
+  [['top',t==='top'],['m1',m1==='nat'||m1==='art'],['m2',(m2==='nat'||m2==='art')&&m2!==m1],['l1',!!m1&&!!l1&&pr[m1]===l1],['l2',!!m2&&!!l2&&pr[m2]===l2]].forEach(([k,g])=>{const c=e.querySelector('[data-zone="'+k+'"] .chip');if(c){tot++;if(g)ok++;mark(c,g)}})}
+ else e.querySelectorAll('.zone').forEach(z=>{const k=z.dataset.zone;z.querySelectorAll('.chip').forEach(c=>{tot++;const g=c.dataset.z===k;if(g)ok++;mark(c,g)})});
+ const chipsAll=e.querySelectorAll('.chip');const placed=e.querySelectorAll('.zone .chip').length;
+ tot+=chipsAll.length-placed;
+ e.querySelectorAll('select').forEach(s=>{tot++;const g=s.value===s.dataset.a;if(g)ok++;mark(s,g)});
+ const rg={};e.querySelectorAll('input[type=radio]').forEach(r=>{(rg[r.name]=rg[r.name]||[]).push(r)});
+ Object.values(rg).forEach(g=>{tot++;const c=g.find(r=>r.checked);const good=c&&c.value===g[0].dataset.a;if(good)ok++;g.forEach(r=>r.parentElement.classList.remove('ok','no'));if(c)mark(c.parentElement,good)});
+ const cb=[...e.querySelectorAll('input[type=checkbox]')];if(cb.length){cb.forEach(x=>{tot++;const g=x.checked===(x.dataset.c==='1');if(g)ok++;if(x.checked)mark(x.parentElement,g)})}
+ res[n]=[ok,tot];e.querySelector('.fb').textContent=`${ok} מתוך ${tot}`;upd()}
+function reset(e,n){e.querySelectorAll('.zone .chip').forEach(c=>{pool(e).append(c)});
+ e.querySelectorAll('.ok,.no').forEach(x=>x.classList.remove('ok','no'));
+ e.querySelectorAll('select').forEach(s=>s.value='');e.querySelectorAll('input').forEach(i=>i.checked=false);
+ e.querySelector('.fb').textContent='';delete res[n];upd()}
+function upd(){let o=0,t=0;Object.values(res).forEach(([a,b])=>{o+=a;t+=b});
+ document.getElementById('total').textContent=t?`ציון: ${Math.round(o/t*100)} (${o}/${t}) · נבדקו ${Object.keys(res).length} מתוך ${S.length} חלקים`:'ציון: –'}
+</script>
+</body>
+</html>
