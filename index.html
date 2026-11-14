@@ -164,9 +164,10 @@ S.push({pre:`<figure class="banner">${pic('birds-sorting-activity','תצפית �
 S.push({t:"תרשים 4: התאמת מבנה לתפקיד – מקור",i:"א. גררו את שם העוף אל התמונה שלו. ב. עופות במסכה: קראו את הרמז וגלו מי אני.",
  h:`<div class="pool">${chips(shuf(BEAKS.map(b=>[b[1],b[1]])))}</div>
  <div class="cards">${BEAKS.map(b=>`<div class="card">${pic(b[0],'מקור של '+b[1])}${zone(b[1])}</div>`).join('')}</div>
+ <div class="row"><button type="button" id="chkA">בדיקה</button><button type="button" class="g" id="rstA">איפוס</button><span class="fb" id="fbA" role="status" aria-live="polite"></span></div>
  <h3>ב. עופות במסכה – מי אני ומה שמי?</h3>
  <div id="mb"><div class="mbcard"><div class="mask">${pic('masked-birds-icon','עופות במסכה – מי אני?')}</div><div id="mbq"></div></div><div class="mbs"><span id="mbs"></span><span class="snd" id="snd" role="button" tabindex="0">🔊 צליל פועל</span></div></div>`,
- ck:'beak'});
+ custom:true});
 /* 5 */
 S.push({custom:true,t:"מקור של הצלחה – עופות מים",i:"השלימו את החסר ובחרו את התשובות הנכונות. על כל שאלה שתיפתר נכון ייחשפו שני חלקים מהתמונה המסתורית.",
  h:`<div class="mys"><div class="wrap">
@@ -201,9 +202,10 @@ S.forEach((s,n)=>{const e=document.createElement('section');e.id='s'+n;
  e.innerHTML=`<h2>${n+1}. ${s.t}</h2><p class="ins">${s.i}</p>${s.pre||''}${s.h}${s.custom?'':'<button>בדיקה</button><button class="g">איפוס</button><span class="fb"></span>'}`;
  if(!s.custom){const[b1,b2]=e.querySelectorAll('button');b1.onclick=()=>check(e,n);b2.onclick=()=>reset(e,n)}M.append(e)});
 function pool(e){return e.querySelector('.pool')}
-function put(chip,z){const cap=z.dataset.cap==='1';
- if(cap&&z.querySelector('.chip')){const o=z.querySelector('.chip');(pool(z.closest('section'))).append(o)}
- z.append(chip);chip.classList.remove('sel','ok','no');selected=null}
+function put(chip,z){const cap=z.dataset.cap==='1',from=chip.closest('.cards');
+ if(cap&&z.querySelector('.chip')){const o=z.querySelector('.chip');o.classList.remove('ok','no');(pool(z.closest('section'))).append(o)}
+ z.append(chip);chip.classList.remove('sel','ok','no');selected=null;
+ if(z.closest('.cards')||from)placedA(chip,z)}
 document.addEventListener('dragstart',e=>{if(e.target.classList?.contains('chip'))selected=e.target});
 document.addEventListener('dragover',e=>e.preventDefault());
 document.addEventListener('drop',e=>{const z=e.target.closest('.zone,.pool');if(z&&selected){put(selected,z)}});
@@ -229,6 +231,22 @@ function reset(e,n){e.querySelectorAll('.zone .chip').forEach(c=>{pool(e).append
  e.querySelector('.fb').textContent='';delete res[n];upd();if(e.id==='s3')mbNew()}
 function upd(){let o=0,t=0;Object.values(res).forEach(([a,b])=>{o+=a;t+=b});
  document.getElementById('total').textContent=t?`ציון: ${Math.round(o/t*100)} (${o}/${t}) · נבדקו ${Object.keys(res).length} מתוך ${S.length} חלקים`:'ציון: –'}
+
+/* ===== תרשים 4 חלק א: משוב מיידי ובדיקה ===== */
+function statA(){const e=document.getElementById('s3');let ok=0,placed=0;
+ e.querySelectorAll('.cards .zone').forEach(z=>{const c=z.querySelector('.chip');if(c){placed++;const g=c.dataset.z===z.dataset.zone;if(g)ok++;mark(c,g)}});
+ if(placed)res[3]=[ok,BEAKS.length];else delete res[3];upd();return{ok,placed}}
+function placedA(chip,z){const f=document.getElementById('fbA'),zz=z.closest('.cards')?z:null;
+ const g=zz?chip.dataset.z===zz.dataset.zone:null,r=statA();
+ if(g===true)f.textContent='✓ נכון! ('+r.ok+' מתוך '+BEAKS.length+')';
+ else if(g===false)f.textContent='✗ לא מתאים לתמונה הזו, נסו מקום אחר';
+ else f.textContent='';
+ if(r.ok===BEAKS.length){f.textContent='🎉 מצוין! כל השמות במקום הנכון';fanfare();confetti()}}
+document.getElementById('chkA').onclick=()=>{const r=statA(),f=document.getElementById('fbA');
+ f.textContent=r.ok===BEAKS.length?'🎉 מצוין! כל השמות במקום הנכון':r.ok+' נכונים מתוך '+BEAKS.length+(r.placed<BEAKS.length?' (נותרו '+(BEAKS.length-r.placed)+' שמות ללא תמונה)':'')};
+document.getElementById('rstA').onclick=()=>{const e=document.getElementById('s3');
+ e.querySelectorAll('.cards .chip').forEach(c=>{c.classList.remove('ok','no','sel');pool(e).append(c)});
+ document.getElementById('fbA').textContent='';delete res[3];upd()};
 
 /* ===== מקור של הצלחה: תמונה מסתורית ===== */
 (()=>{const $=id=>document.getElementById(id);const tiles=$('tiles');
