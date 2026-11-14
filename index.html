@@ -64,6 +64,48 @@ header.hero{max-width:none;margin:0;padding:34px 16px 40px;color:#fff;text-align
 .mbs{margin:8px 0;font-weight:700;color:var(--ac)}
 .snd{cursor:pointer;color:var(--ac);font-size:.9rem;margin-inline-start:10px;user-select:none}
 @keyframes shake{25%{transform:translateX(6px)}75%{transform:translateX(-6px)}}
+figure.banner{margin:8px 0 14px}figure.banner img{border:0;border-radius:12px;background:transparent}
+.mys{--navy:#12364a;--teal:#167b78;--gold:#f4c76b;--ink:#183342;--muted:#607783;--wrong:#a63c36;--right:#18734f;color:var(--ink);background:linear-gradient(135deg,#e7f4ef,#d9eaf0 55%,#f8f1df);border-radius:16px;padding:14px;margin-top:6px}
+.mys .wrap{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(280px,.88fr);gap:18px;align-items:start}
+.mys .panel{background:rgba(255,255,255,.92);border:1px solid rgba(18,54,74,.12);border-radius:18px;box-shadow:0 8px 24px rgba(28,69,83,.11);padding:18px}
+.mys .panel h3{margin:0 0 7px;color:var(--navy);font-size:1.15rem}
+.mys .instructions{margin:0 0 14px;color:var(--muted);line-height:1.6}
+.mys .progress-line{height:10px;border-radius:99px;background:#e4eeeb;overflow:hidden;margin:12px 0 7px}
+.mys .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),#72bda0);transition:width .35s}
+.mys .progress-label{font-size:.9rem;color:var(--muted);display:flex;justify-content:space-between;gap:10px}
+.mys .question{padding:14px 0;border-top:1px solid #e6efec}
+.mys .question:first-of-type{border-top:0}
+.mys .qtitle{font-weight:bold;line-height:1.7;margin-bottom:8px;color:var(--ink)}
+.mys select{font:inherit;color:var(--ink);background:#fff;border:1.5px solid #b8cbc7;border-radius:10px;padding:8px 10px;margin:4px 2px;max-width:100%}
+.mys .options{display:flex;flex-wrap:wrap;gap:9px 16px}
+.mys .options label{display:inline-flex;align-items:center;gap:6px;cursor:pointer;padding:5px 8px;border-radius:9px;color:var(--ink)}
+.mys .options label:hover{background:#f0f7f4}
+.mys input{accent-color:var(--teal);width:17px;height:17px}
+.mys .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.mys button{font:inherit;font-weight:bold;border:0;border-radius:12px;padding:11px 19px;cursor:pointer;margin:0}
+.mys .primary{background:var(--teal);color:#fff;box-shadow:0 5px 12px #167b7833}
+.mys .secondary{background:#edf4f2;color:var(--navy);border:1px solid #c9d9d4}
+.mys button:disabled{opacity:.55;cursor:not-allowed}
+.mys .feedback{min-height:28px;margin-top:12px;font-weight:bold;line-height:1.5;margin-inline-start:0}
+.mys .feedback.good{color:var(--right)}.mys .feedback.bad{color:var(--wrong)}
+.mys .picture-panel{position:sticky;top:16px}
+.mys .picture-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px}
+.mys .counter{font-weight:bold;color:var(--teal);white-space:nowrap;direction:ltr;unicode-bidi:isolate}
+.mys .picture-frame{position:relative;width:100%;aspect-ratio:1376/768;border-radius:15px;overflow:hidden;background:#dbe9e5;border:1px solid #c7d9d3}
+.mys .picture-frame:before{content:"התמונה המסתורית תתגלה כאן";position:absolute;inset:0;display:grid;place-items:center;color:#54716e;font-weight:bold;text-align:center;padding:20px}
+.mys .tiles{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr)}
+.mys .tile{opacity:0;transform:scale(.96);transition:opacity .5s,transform .5s;background-image:var(--mimg);background-size:400% 300%;background-repeat:no-repeat}
+.mys .tile.visible{opacity:1;transform:scale(1)}
+.mys .tile:nth-child(1){background-position:0 0}.mys .tile:nth-child(2){background-position:33.333% 0}
+.mys .tile:nth-child(3){background-position:66.666% 0}.mys .tile:nth-child(4){background-position:100% 0}
+.mys .tile:nth-child(5){background-position:0 50%}.mys .tile:nth-child(6){background-position:33.333% 50%}
+.mys .tile:nth-child(7){background-position:66.666% 50%}.mys .tile:nth-child(8){background-position:100% 50%}
+.mys .tile:nth-child(9){background-position:0 100%}.mys .tile:nth-child(10){background-position:33.333% 100%}
+.mys .tile:nth-child(11){background-position:66.666% 100%}.mys .tile:nth-child(12){background-position:100% 100%}
+.mys .picture-note{font-size:.88rem;color:var(--muted);line-height:1.5;margin:12px 0 0}
+.mys .complete{display:none;margin-top:14px;padding:14px;border-radius:13px;background:#e5f5ec;color:#145d40;font-weight:bold;line-height:1.6}
+.mys .complete.show{display:block}
+@media(max-width:820px){.mys .wrap{grid-template-columns:1fr}.mys .picture-panel{position:static;grid-row:1}}
 </style>
 </head>
 <body>
@@ -100,14 +142,14 @@ const sel=(a,opts)=>`<select data-a="${a}"><option value="">בחרו…</option>
 const mc=(name,a,opts)=>opts.map(o=>`<label class="o"><input type="radio" name="${name}" value="${o}" data-a="${a}"> ${o}</label>`).join('');
 const S=[];
 /* 1 */
-S.push({pre:`<figure>${pic('diagram-1','נוף עוטף בית ספר – מבוא')}<figcaption>תרשים זרימה – נוף עוטף בית ספר</figcaption></figure>`,t:"תרשים זרימה 1: נוף עוטף בית ספר",i:"שבצו את המילים מ\"בנק המילים\" בתרשים. אפשר למקם את שני סוגי בתי הגידול בכל צד, והדוגמה שמתחת לכל אחד צריכה להתאים לו.",
+S.push({pre:`<figure>${pic('diagram-1','נוף עוטף בית ספר – מבוא')}<figcaption>תרשים זרימה 1 – נוף עוטף בית ספר</figcaption></figure>`,t:"תרשים זרימה 1: נוף עוטף בית ספר",i:"שבצו את המילים מ\"בנק המילים\" בתרשים. אפשר למקם את שני סוגי בתי הגידול בכל צד, והדוגמה שמתחת לכל אחד צריכה להתאים לו.",
  h:`<div class="pool">${chips(shuf([["top","נוף עוטף בית ספר"],["nat","בתי גידול טבעיים"],["art","בתי גידול מלאכותיים"],["stream","נחל תנינים"],["pond","בריכות דגים"]]))}</div>
  <div class="tree"><div class="top">${zone('top')}</div><div class="lbl">כולל</div><div class="lbl">כולל</div>
  <div>${zone('m1')}</div><div>${zone('m2')}</div><div class="lbl">כמו</div><div class="lbl">כמו</div><div>${zone('l1')}</div><div>${zone('l2')}</div></div>
  <p class="row">בין בתי גידול טבעיים למלאכותיים ההשפעה היא: ${mc('q1a','הדדית',['הדדית','חד-כיוונית'])}</p>
  <p class="row">בין נחל תנינים לבריכות דגים ההשפעה היא: ${mc('q1b','הדדית',['הדדית','חד-כיוונית'])}</p>`});
 /* 2 */
-S.push({pre:`<figure>${pic('diagram-2','תרשים זרימה 2: בריכות דגים – היבט אקולוגי')}<figcaption>תרשים זרימה – בריכות דגים: היבט אקולוגי</figcaption></figure>`,t:"תרשים זרימה 2: בריכות דגים – היבט אקולוגי",i:"מיינו כל גורם: האם הוא גורם אביוטי או ביוטי?",
+S.push({pre:`<figure>${pic('diagram-2','תרשים זרימה 2: בריכות דגים – היבט אקולוגי')}<figcaption>תרשים זרימה 2 – בריכות דגים: היבט אקולוגי</figcaption></figure>`,t:"תרשים זרימה 2: בריכות דגים – היבט אקולוגי",i:"מיינו כל גורם: האם הוא גורם אביוטי או ביוטי?",
  h:`<div class="pool">${chips(shuf([["ab","עומק המים"],["ab","ריכוז החמצן"],["ab","שיפוע הגדות"],["bi","צמחיית הגדה"],["bi","צפיפות הדגים"],["bi","מספר ומגוון העופות"]]))}</div>
  <div class="baskets"><div><b>גורמים אביוטיים</b>${zone('ab',0)}</div><div><b>גורמים ביוטיים</b>${zone('bi',0)}</div></div>
  <p class="row">גורמים ביוטיים הם: ${mc('q2','גורמים חיים',['גורמים חיים','גורמים דוממים'])}</p>
@@ -115,7 +157,7 @@ S.push({pre:`<figure>${pic('diagram-2','תרשים זרימה 2: בריכות ד
  <p class="ins">בתרשים, הגורמים יכולים להשפיע זה על זה. בחרו לכל זוג את סוג ההשפעה.</p>
  ${shuf([["שיפוע הגדות","ריכוז החמצן",1],["עומק המים","ריכוז החמצן",1],["ריכוז החמצן","צפיפות הדגים",0],["צפיפות הדגים","מספר ומגוון העופות",0],["מספר ומגוון העופות","צמחיית הגדה",0],["שיפוע הגדות","צמחיית הגדה",0],["שיפוע הגדות","מספר ומגוון העופות",1],["עומק המים","מספר ומגוון העופות",1]]).map(([A,B,o])=>`<div class="row"><span>בין <b>${A}</b> לבין <b>${B}</b>:</span>${sel(o?`${A} משפיע על ${B}`:'השפעה הדדית',[`${A} משפיע על ${B}`,`${B} משפיע על ${A}`,'השפעה הדדית'])}</div>`).join('')}`});
 /* 3 */
-S.push({t:"תצפית עופות בבריכות הדגים – מיון",i:"עופות ניתן למיין לפי מבנה גוף, סוג המזון ושהות בארץ. מיינו כל מילה לקבוצה המתאימה.",
+S.push({pre:`<figure class="banner">${pic('birds-sorting-activity','תצפית עופות בבריכות הדגים – מיון')}</figure>`,t:"תצפית עופות בבריכות הדגים – מיון",i:"עופות ניתן למיין לפי מבנה גוף, סוג המזון ושהות בארץ. מיינו כל מילה לקבוצה המתאימה.",
  h:`<div class="pool">${chips(shuf([["body","מקור"],["body","צוואר"],["body","צבע הגוף"],["body","רגליים"],["body","גודל הגוף"],["body","סימנים מיוחדים"],["food","פגרי דגים"],["food","חסרי חוליות קטנים"],["food","דגים ודגיגונים"],["food","פלנקטון"],["food","מזון צמחי"],["stay","חולפות"],["stay","חורפות"],["stay","מקייצות"],["stay","יציבות"]]))}</div>
  <div class="baskets" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))"><div><b>מבנה גוף</b>${zone('body',0)}</div><div><b>סוג המזון</b>${zone('food',0)}</div><div><b>שהות בארץ</b>${zone('stay',0)}</div></div>`});
 /* 4 */
@@ -126,20 +168,38 @@ S.push({t:"תרשים 4: התאמת מבנה לתפקיד – מקור",i:"א. �
  <div id="mb"><div class="mbcard"><div class="mask">${pic('masked-birds-icon','עופות במסכה – מי אני?')}</div><div id="mbq"></div></div><div class="mbs"><span id="mbs"></span><span class="snd" id="snd" role="button" tabindex="0">🔊 צליל פועל</span></div></div>`,
  ck:'beak'});
 /* 5 */
-S.push({t:"דף עבודה 5: אוכלי דגים – התאמת מבנה ותפקיד",i:"השלימו את החסר ובחרו את התשובה הנכונה.",
- h:(()=>{const W=["תצפית","המתרחב","מהירה","מתחתם"];return`
- <p>מקור דמוי פגיון: ללוכדי דגים מעמדת ${sel('תצפית',W)} מחוץ למים, בתנועת מקור ${sel('מהירה',W)} וחטופה (אנפה, שלדג).</p>
- <p>מקור דק וצר עם קצה כפוף: ללוכדים את הדגים תוך כדי שחייה, מעל פני המים או ${sel('מתחתם',W)} (קורמורן, מרגון).</p>
- <p>מקור ${sel('המתרחב',W)} לשק גדול – ללכידת דגים, כמו אצל השקנאי.</p>
- <p>מקור רחב עם לוחיות קרניות לסינון, יחד עם הלשון, יש ל… ${mc('ס1','ברווזים',['ברווזים','נשרים','דרורים','סיפנים','חרטומיות'])}</p>
- <p>מקור ${mc('ס2','כפוף',['ישר','כפוף'])} כמו לפלמינגו, שבשוליו לוחיות קרניות, ופועל כמו מחפרון.</p>
- <p><b>סמנו את העופות שניזונים מדגים:</b> ${[["שקנאי",1],["קורמורן",1],["כפן",0],["פלמינגו",0],["ברווז",0],["סייפן",0]].map(([n,c])=>`<label class="o"><input type="checkbox" data-c="${c}"> ${n}</label>`).join('')}</p>`})()});
+S.push({custom:true,t:"מקור של הצלחה – עופות מים",i:"השלימו את החסר ובחרו את התשובות הנכונות. על כל שאלה שתיפתר נכון ייחשפו שני חלקים מהתמונה המסתורית.",
+ h:`<div class="mys"><div class="wrap">
+  <div class="panel">
+    <h3>המשימות</h3>
+    <p class="instructions">בחרו את התשובות המתאימות. בשאלת הסימון יש לסמן את כל העופות המתאימים, ורק אותם.</p>
+    <div class="progress-line"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label"><span id="progressText">נפתרו 0 מתוך 6 משימות</span><span>12 חלקי תמונה</span></div>
+    <div class="question"><div class="qtitle">1. מקור דמוי פגיון: ללוכדי דגים מעמדת <select id="q1a" aria-label="השלימו: מעמדת"><option value="">בחרו…</option><option>תצפית</option><option>מתרחב</option><option>מהירה</option><option>מתחתם</option></select> מחוץ למים, בתנועת מקור <select id="q1b" aria-label="השלימו: בתנועת מקור"><option value="">בחרו…</option><option>תצפית</option><option>מתרחב</option><option>מהירה</option><option>מתחתם</option></select> וחטופה (אנפה, שלדג).</div></div>
+    <div class="question"><div class="qtitle">2. מקור דק וצר עם קצה כפוף: ללוכדים את הדגים תוך כדי שחייה, מעל פני המים או <select id="q2a" aria-label="השלימו: מעל פני המים או"><option value="">בחרו…</option><option>תצפית</option><option>מתרחב</option><option>מהירה</option><option>מתחתם</option></select> (קורמורן, מרגון).</div></div>
+    <div class="question"><div class="qtitle">3. מקור <select id="q3a" aria-label="השלימו: מקור"><option value="">בחרו…</option><option>תצפית</option><option>מתרחב</option><option>מהירה</option><option>מתחתם</option></select> לשק גדול – ללכידת דגים, כמו אצל השקנאי.</div></div>
+    <div class="question"><div class="qtitle">4. מקור רחב עם לוחיות קרניות לסינון, יחד עם הלשון, יש ל…</div>
+      <div class="options"><label><input type="radio" name="q4" value="ברווזים">ברווזים</label><label><input type="radio" name="q4" value="נשרים">נשרים</label><label><input type="radio" name="q4" value="דרורים">דרורים</label><label><input type="radio" name="q4" value="סיפנים">סיפנים</label><label><input type="radio" name="q4" value="חרטומיות">חרטומיות</label></div></div>
+    <div class="question"><div class="qtitle">5. מקור <span style="font-weight:normal">כמו לפלמינגו, שבשוליו לוחיות קרניות, ופועל כמו מחפרון:</span></div>
+      <div class="options"><label><input type="radio" name="q5" value="ישר">ישר</label><label><input type="radio" name="q5" value="כפוף">כפוף</label></div></div>
+    <div class="question"><div class="qtitle">6. סמנו את העופות שניזונים מדגים:</div>
+      <div class="options"><label><input type="checkbox" name="q6" value="שקנאי">שקנאי</label><label><input type="checkbox" name="q6" value="קורמורן">קורמורן</label><label><input type="checkbox" name="q6" value="כפן">כפן</label><label><input type="checkbox" name="q6" value="פלמינגו">פלמינגו</label><label><input type="checkbox" name="q6" value="ברווז">ברווז</label><label><input type="checkbox" name="q6" value="סייפן">סייפן</label></div></div>
+    <div class="actions"><button class="primary" id="checkBtn" type="button">בדיקת תשובות</button><button class="secondary" id="resetBtn" type="button">איפוס</button></div>
+    <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+  </div>
+  <aside class="panel picture-panel">
+    <div class="picture-head"><h3>התמונה המסתורית</h3><span class="counter" id="tileCounter">0 / 12</span></div>
+    <div class="picture-frame" id="pframe"><div class="tiles" id="tiles" aria-label="תמונה הנחשפת בהדרגה"></div></div>
+    <p class="picture-note">כל משימה שנפתרה נכון חושפת שני חלקים נוספים. אפשר להמשיך לנסות עד שמצליחים.</p>
+    <div class="complete" id="complete">כל הכבוד! פתרתם את כל המשימות וחשפתם את התמונה במלואה! 🎉</div>
+  </aside>
+ </div></div>`});
 
 /* ===== מנוע ===== */
 const M=document.getElementById('m');let selected=null;const res={};
 S.forEach((s,n)=>{const e=document.createElement('section');e.id='s'+n;
- e.innerHTML=`<h2>${n+1}. ${s.t}</h2><p class="ins">${s.i}</p>${s.pre||''}${s.h}<button>בדיקה</button><button class="g">איפוס</button><span class="fb"></span>`;
- const[b1,b2]=e.querySelectorAll('button');b1.onclick=()=>check(e,n);b2.onclick=()=>reset(e,n);M.append(e)});
+ e.innerHTML=`<h2>${n+1}. ${s.t}</h2><p class="ins">${s.i}</p>${s.pre||''}${s.h}${s.custom?'':'<button>בדיקה</button><button class="g">איפוס</button><span class="fb"></span>'}`;
+ if(!s.custom){const[b1,b2]=e.querySelectorAll('button');b1.onclick=()=>check(e,n);b2.onclick=()=>reset(e,n)}M.append(e)});
 function pool(e){return e.querySelector('.pool')}
 function put(chip,z){const cap=z.dataset.cap==='1';
  if(cap&&z.querySelector('.chip')){const o=z.querySelector('.chip');(pool(z.closest('section'))).append(o)}
@@ -169,6 +229,38 @@ function reset(e,n){e.querySelectorAll('.zone .chip').forEach(c=>{pool(e).append
  e.querySelector('.fb').textContent='';delete res[n];upd();if(e.id==='s3')mbNew()}
 function upd(){let o=0,t=0;Object.values(res).forEach(([a,b])=>{o+=a;t+=b});
  document.getElementById('total').textContent=t?`ציון: ${Math.round(o/t*100)} (${o}/${t}) · נבדקו ${Object.keys(res).length} מתוך ${S.length} חלקים`:'ציון: –'}
+
+/* ===== מקור של הצלחה: תמונה מסתורית ===== */
+(()=>{const $=id=>document.getElementById(id);const tiles=$('tiles');
+ for(let i=0;i<12;i++){const t=document.createElement('div');t.className='tile';tiles.appendChild(t)}
+ /* טעינת התמונה המסתורית: aquaculture-and-ecosystems, ואם אין אותה – התמונה מהקוד המקורי */
+ (()=>{const n='aquaculture-and-ecosystems',L=[...(typeof EMB!=='undefined'&&EMB[n]?[EMB[n]]:[]),...CAND(n),'https://2all.co.il/web/Sites5/madakef/209923_2955.webp'];let i=0;
+  (function go(){if(i>=L.length)return;const u=L[i++],im=new Image();im.onload=()=>{tiles.style.setProperty('--mimg','url("'+u+'")');$('pframe').style.aspectRatio=im.naturalWidth+'/'+im.naturalHeight};im.onerror=go;im.src=u})()})();
+ const solved=new Set();
+ const answers={
+  1:()=>$('q1a').value==='תצפית'&&$('q1b').value==='מהירה',
+  2:()=>$('q2a').value==='מתחתם',
+  3:()=>$('q3a').value==='מתרחב',
+  4:()=>document.querySelector('input[name="q4"]:checked')?.value==='ברווזים',
+  5:()=>document.querySelector('input[name="q5"]:checked')?.value==='כפוף',
+  6:()=>{const c=[...document.querySelectorAll('input[name="q6"]:checked')].map(x=>x.value).sort();return c.length===2&&c[0]==='קורמורן'&&c[1]==='שקנאי'}};
+ function update(){const k=solved.size;
+  $('progressFill').style.width=(k/6*100)+'%';$('progressText').textContent='נפתרו '+k+' מתוך 6 משימות';
+  $('tileCounter').textContent=(k*2)+' / 12';
+  [...tiles.children].forEach((t,i)=>t.classList.toggle('visible',i<k*2));
+  $('complete').classList.toggle('show',k===6);$('checkBtn').disabled=k===6;
+  if(k)res[4]=[k,6];else delete res[4];upd()}
+ $('checkBtn').addEventListener('click',()=>{let ns=0,w=0;
+  for(let i=1;i<=6;i++){if(solved.has(i))continue;if(answers[i]()){solved.add(i);ns++}else w++}
+  update();const f=$('feedback');
+  if(solved.size===6){f.className='feedback good';f.textContent='מצוין! כל התשובות נכונות והתמונה נחשפה במלואה.'}
+  else if(ns&&w){f.className='feedback good';f.textContent='יופי! '+ns+' משימות נפתרו ונחשפו חלקים נוספים. בדקו שוב את המשימות שנותרו.'}
+  else if(ns){f.className='feedback good';f.textContent='נכון מאוד! '+ns+' משימות נוספות נפתרו.'}
+  else{f.className='feedback bad';f.textContent='עדיין לא כל התשובות נכונות. נסו שוב – אפשר לתקן ולבדוק מחדש.'}});
+ $('resetBtn').addEventListener('click',()=>{
+  document.querySelectorAll('#s4 select').forEach(x=>x.value='');document.querySelectorAll('#s4 input').forEach(x=>x.checked=false);
+  solved.clear();update();const f=$('feedback');f.className='feedback';f.textContent='החידון אופס. אפשר להתחיל מחדש!'});
+ update()})();
 
 /* ===== עופות במסכה: חידות מתחלפות, תרועה וקונפטי ===== */
 const MB={deck:[],i:0,solved:0,lock:0,sound:true};
