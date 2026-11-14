@@ -102,6 +102,8 @@ figure.banner{margin:8px 0 14px}figure.banner img{border:0;border-radius:12px;ba
 .mys .tile:nth-child(7){background-position:66.666% 50%}.mys .tile:nth-child(8){background-position:100% 50%}
 .mys .tile:nth-child(9){background-position:0 100%}.mys .tile:nth-child(10){background-position:33.333% 100%}
 .mys .tile:nth-child(11){background-position:66.666% 100%}.mys .tile:nth-child(12){background-position:100% 100%}
+.mys .question.done{background:#eefaf3;border-radius:10px;box-shadow:inset -4px 0 0 var(--right)}
+.mys select:disabled,.mys input:disabled{opacity:.75}
 .mys .picture-note{font-size:.88rem;color:var(--muted);line-height:1.5;margin:12px 0 0}
 .mys .complete{display:none;margin-top:14px;padding:14px;border-radius:13px;background:#e5f5ec;color:#145d40;font-weight:bold;line-height:1.6}
 .mys .complete.show{display:block}
@@ -173,7 +175,7 @@ S.push({custom:true,t:"מקור של הצלחה – עופות מים",i:"השל
  h:`<div class="mys"><div class="wrap">
   <div class="panel">
     <h3>המשימות</h3>
-    <p class="instructions">בחרו את התשובות המתאימות. בשאלת הסימון יש לסמן את כל העופות המתאימים, ורק אותם.</p>
+    <p class="instructions">בחרו את התשובות המתאימות. בשאלת הסימון יש לסמן את כל העופות המתאימים, ורק אותם. כשתשובה נכונה, שני חלקים מהתמונה נחשפים מיד, בלי ללחוץ על בדיקה.</p>
     <div class="progress-line"><div class="progress-fill" id="progressFill"></div></div>
     <div class="progress-label"><span id="progressText">נפתרו 0 מתוך 6 משימות</span><span>12 חלקי תמונה</span></div>
     <div class="question"><div class="qtitle">1. מקור דמוי פגיון: ללוכדי דגים מעמדת <select id="q1a" aria-label="השלימו: מעמדת"><option value="">בחרו…</option><option>תצפית</option><option>מתרחב</option><option>מהירה</option><option>מתחתם</option></select> מחוץ למים, בתנועת מקור <select id="q1b" aria-label="השלימו: בתנועת מקור"><option value="">בחרו…</option><option>תצפית</option><option>מתרחב</option><option>מהירה</option><option>מתחתם</option></select> וחטופה (אנפה, שלדג).</div></div>
@@ -191,7 +193,7 @@ S.push({custom:true,t:"מקור של הצלחה – עופות מים",i:"השל
   <aside class="panel picture-panel">
     <div class="picture-head"><h3>התמונה המסתורית</h3><span class="counter" id="tileCounter">0 / 12</span></div>
     <div class="picture-frame" id="pframe"><div class="tiles" id="tiles" aria-label="תמונה הנחשפת בהדרגה"></div></div>
-    <p class="picture-note">כל משימה שנפתרה נכון חושפת שני חלקים נוספים. אפשר להמשיך לנסות עד שמצליחים.</p>
+    <p class="picture-note">כל משימה שנפתרה נכון חושפת מיד שני חלקים נוספים. אפשר להמשיך לנסות עד שמצליחים.</p>
     <div class="complete" id="complete">כל הכבוד! פתרתם את כל המשימות וחשפתם את התמונה במלואה! 🎉</div>
   </aside>
  </div></div>`});
@@ -268,8 +270,15 @@ document.getElementById('rstA').onclick=()=>{const e=document.getElementById('s3
   [...tiles.children].forEach((t,i)=>t.classList.toggle('visible',i<k*2));
   $('complete').classList.toggle('show',k===6);$('checkBtn').disabled=k===6;
   if(k)res[4]=[k,6];else delete res[4];upd()}
+ const ctl={1:['#q1a','#q1b'],2:['#q2a'],3:['#q3a'],4:['input[name="q4"]'],5:['input[name="q5"]'],6:['input[name="q6"]']};
+ function lock(i,on){ctl[i].forEach(sel=>document.querySelectorAll('#s4 '+sel).forEach(x=>{x.disabled=on}));const q=document.querySelectorAll('#s4 .question')[i-1];if(q)q.classList.toggle('done',on)}
+ function auto(){let ns=0;for(let i=1;i<=6;i++){if(!solved.has(i)&&answers[i]()){solved.add(i);lock(i,true);ns++}}
+  if(!ns)return;update();const f=$('feedback');f.className='feedback good';
+  if(solved.size===6){f.textContent='מצוין! כל התשובות נכונות והתמונה נחשפה במלואה.';fanfare();confetti()}
+  else f.textContent='✓ נכון! נחשפו שני חלקים נוספים מהתמונה ('+solved.size+' מתוך 6)'}
+ document.querySelectorAll('#s4 select,#s4 input').forEach(x=>x.addEventListener('change',auto));
  $('checkBtn').addEventListener('click',()=>{let ns=0,w=0;
-  for(let i=1;i<=6;i++){if(solved.has(i))continue;if(answers[i]()){solved.add(i);ns++}else w++}
+  for(let i=1;i<=6;i++){if(solved.has(i))continue;if(answers[i]()){solved.add(i);lock(i,true);ns++}else w++}
   update();const f=$('feedback');
   if(solved.size===6){f.className='feedback good';f.textContent='מצוין! כל התשובות נכונות והתמונה נחשפה במלואה.'}
   else if(ns&&w){f.className='feedback good';f.textContent='יופי! '+ns+' משימות נפתרו ונחשפו חלקים נוספים. בדקו שוב את המשימות שנותרו.'}
@@ -277,6 +286,7 @@ document.getElementById('rstA').onclick=()=>{const e=document.getElementById('s3
   else{f.className='feedback bad';f.textContent='עדיין לא כל התשובות נכונות. נסו שוב – אפשר לתקן ולבדוק מחדש.'}});
  $('resetBtn').addEventListener('click',()=>{
   document.querySelectorAll('#s4 select').forEach(x=>x.value='');document.querySelectorAll('#s4 input').forEach(x=>x.checked=false);
+  for(let i=1;i<=6;i++)lock(i,false);
   solved.clear();update();const f=$('feedback');f.className='feedback';f.textContent='החידון אופס. אפשר להתחיל מחדש!'});
  update()})();
 
