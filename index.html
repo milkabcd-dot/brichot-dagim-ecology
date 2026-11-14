@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>שמורת טבע ובריכות דגים – מעגן מיכאל</title>
+<title>בין נחל לבריכות – פסיפס של טבע וחיים</title>
 <style>
 :root{--bg:#f6f8f4;--card:#fff;--tx:#1f2d24;--mu:#5d6b62;--ac:#2f7d5b;--bd:#cfd9d2;--ok:#d7f0de;--okb:#2e9e57;--no:#fbdcdc;--nob:#d04a4a;--chip:#e6f1ea}
 @media(prefers-color-scheme:dark){:root{--bg:#141a16;--card:#1e2721;--tx:#e8efe9;--mu:#a2b1a7;--ac:#5cc596;--bd:#37463c;--ok:#1f4a2e;--okb:#4cc77a;--no:#4d2323;--nob:#ee7777;--chip:#2a3a30}}
@@ -42,7 +42,7 @@ footer{text-align:center;color:var(--mu)}
 header.hero{max-width:none;margin:0;padding:34px 16px 40px;color:#fff;text-align:center;background:radial-gradient(circle at 15% 20%,rgba(255,255,255,.18),transparent 40%),linear-gradient(135deg,#0d5c63 0%,#2f7d5b 50%,#5aa469 100%);border-radius:0 0 34px 34px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
 .hero .hin{max-width:860px;margin:0 auto}
 .hero .kick{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:4px 18px;font-weight:700;letter-spacing:.5px}
-.hero h1{margin:.25em 0 .05em;color:#fff;font-size:clamp(2.2rem,7vw,3.8rem);font-weight:900;line-height:1.1;text-shadow:0 3px 0 rgba(0,0,0,.25),0 8px 22px rgba(0,0,0,.3)}
+.hero h1{text-wrap:balance;margin:.25em 0 .05em;color:#fff;font-size:clamp(2.2rem,7vw,3.8rem);font-weight:900;line-height:1.1;text-shadow:0 3px 0 rgba(0,0,0,.25),0 8px 22px rgba(0,0,0,.3)}
 .hero .sub{font-size:clamp(1.2rem,4vw,1.8rem);font-weight:700;color:#ffe98a;text-shadow:0 2px 6px rgba(0,0,0,.3)}
 .hero p{margin:.8em auto;max-width:620px;font-size:1.05rem}
 .hero .cr{display:inline-block;background:#fff;color:#1f5c45;border-radius:999px;padding:4px 18px;font-weight:700}
@@ -111,7 +111,7 @@ figure.banner{margin:8px 0 14px}figure.banner img{border:0;border-radius:12px;ba
 <body>
 <header class="hero"><div class="hin">
 <div class="kick">🦆 חידון אינטראקטיבי: מסע אקולוגי</div>
-<h1>שמורת טבע ובריכות דגים</h1>
+<h1>בין נחל לבריכות – פסיפס של טבע וחיים</h1>
 <div class="sub">מעגן מיכאל</div>
 <p><b>הנחיות:</b> גררו את המילים למקום הנכון (במסך מגע: לחצו על מילה ואז על המקום), ולחצו "בדיקה".</p>
 <span class="cr">© מילכה ברקו גרש</span>
@@ -142,14 +142,14 @@ const sel=(a,opts)=>`<select data-a="${a}"><option value="">בחרו…</option>
 const mc=(name,a,opts)=>opts.map(o=>`<label class="o"><input type="radio" name="${name}" value="${o}" data-a="${a}"> ${o}</label>`).join('');
 const S=[];
 /* 1 */
-S.push({pre:`<figure>${pic('diagram-1','נוף עוטף בית ספר – מבוא')}<figcaption>תרשים זרימה 1 – נוף עוטף בית ספר</figcaption></figure>`,t:"תרשים זרימה 1: נוף עוטף בית ספר",i:"שבצו את המילים מ\"בנק המילים\" בתרשים. אפשר למקם את שני סוגי בתי הגידול בכל צד, והדוגמה שמתחת לכל אחד צריכה להתאים לו.",
- h:`<div class="pool">${chips(shuf([["top","נוף עוטף בית ספר"],["nat","בתי גידול טבעיים"],["art","בתי גידול מלאכותיים"],["stream","נחל תנינים"],["pond","בריכות דגים"]]))}</div>
+S.push({pre:`<figure>${pic('diagram-1','תרשים זרימה אקולוגי של האזור')}<figcaption>תרשים זרימה אקולוגי של האזור</figcaption></figure>`,t:"תרשים זרימה אקולוגי של האזור",i:"שבצו את המילים מ\"בנק המילים\" בתרשים. אפשר למקם את שני סוגי בתי הגידול בכל צד, והדוגמה שמתחת לכל אחד צריכה להתאים לו.",
+ h:`<div class="pool">${chips(shuf([["top","מרחב נחל תנינים ומעגן מיכאל"],["nat","בתי גידול טבעיים"],["art","בתי גידול מלאכותיים"],["stream","נחל תנינים"],["pond","בריכות דגים"]]))}</div>
  <div class="tree"><div class="top">${zone('top')}</div><div class="lbl">כולל</div><div class="lbl">כולל</div>
  <div>${zone('m1')}</div><div>${zone('m2')}</div><div class="lbl">כמו</div><div class="lbl">כמו</div><div>${zone('l1')}</div><div>${zone('l2')}</div></div>
  <p class="row">בין בתי גידול טבעיים למלאכותיים ההשפעה היא: ${mc('q1a','הדדית',['הדדית','חד-כיוונית'])}</p>
  <p class="row">בין נחל תנינים לבריכות דגים ההשפעה היא: ${mc('q1b','הדדית',['הדדית','חד-כיוונית'])}</p>`});
 /* 2 */
-S.push({pre:`<figure>${pic('diagram-2','תרשים זרימה 2: בריכות דגים – היבט אקולוגי')}<figcaption>תרשים זרימה 2 – בריכות דגים: היבט אקולוגי</figcaption></figure>`,t:"תרשים זרימה 2: בריכות דגים – היבט אקולוגי",i:"מיינו כל גורם: האם הוא גורם אביוטי או ביוטי?",
+S.push({pre:`<figure>${pic('diagram-2','תרשים זרימה של בריכות דגים – היבט אקולוגי')}<figcaption>תרשים זרימה של בריכות דגים – היבט אקולוגי</figcaption></figure>`,t:"תרשים זרימה של בריכות דגים – היבט אקולוגי",i:"מיינו כל גורם: האם הוא גורם אביוטי או ביוטי?",
  h:`<div class="pool">${chips(shuf([["ab","עומק המים"],["ab","ריכוז החמצן"],["ab","שיפוע הגדות"],["bi","צמחיית הגדה"],["bi","צפיפות הדגים"],["bi","מספר ומגוון העופות"]]))}</div>
  <div class="baskets"><div><b>גורמים אביוטיים</b>${zone('ab',0)}</div><div><b>גורמים ביוטיים</b>${zone('bi',0)}</div></div>
  <p class="row">גורמים ביוטיים הם: ${mc('q2','גורמים חיים',['גורמים חיים','גורמים דוממים'])}</p>
