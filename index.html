@@ -161,7 +161,7 @@ S.push({pre:`<figure class="banner">${pic('birds-sorting-activity','תצפית �
  h:`<div class="pool">${chips(shuf([["body","מקור"],["body","צוואר"],["body","צבע הגוף"],["body","רגליים"],["body","גודל הגוף"],["body","סימנים מיוחדים"],["food","פגרי דגים"],["food","חסרי חוליות קטנים"],["food","דגים ודגיגונים"],["food","פלנקטון"],["food","מזון צמחי"],["stay","חולפות"],["stay","חורפות"],["stay","מקייצות"],["stay","יציבות"]]))}</div>
  <div class="baskets" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))"><div><b>מבנה גוף</b>${zone('body',0)}</div><div><b>סוג המזון</b>${zone('food',0)}</div><div><b>שהות בארץ</b>${zone('stay',0)}</div></div>`});
 /* 4 */
-S.push({t:"תרשים 4: התאמת מבנה לתפקיד – מקור",i:"א. גררו את שם העוף אל התמונה שלו. ב. עופות במסכה: קראו את הרמז וגלו מי אני.",
+S.push({t:"תרשים 4: התאמת מבנה לתפקיד – מקור",i:"א. גררו את שם העוף אל המלבן שמתחת לתמונה שלו. ב. עופות במסכה: קראו את הרמז וגלו מי אני.",
  h:`<div class="pool">${chips(shuf(BEAKS.map(b=>[b[1],b[1]])))}</div>
  <div class="cards">${BEAKS.map(b=>`<div class="card">${pic(b[0],'מקור של '+b[1])}${zone(b[1])}</div>`).join('')}</div>
  <div class="row"><button type="button" id="chkA">בדיקה</button><button type="button" class="g" id="rstA">איפוס</button><span class="fb" id="fbA" role="status" aria-live="polite"></span></div>
