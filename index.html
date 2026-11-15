@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>בלשי היסודות</title>
+<style>
+body{font-family:Arial;background:#eef7ff;text-align:center}
+.card{display:inline-block;border:1px solid #4a90e2;border-radius:10px;padding:8px;margin:4px;background:white}
+button{font-size:18px;padding:10px 20px;margin:8px}
+small{color:#666}
+</style>
+</head>
+<body>
+<h1>🔬 בלשי היסודות</h1>
+<p>זוהי גרסת בסיס שממנה נמשיך לפתח את המשחק.</p>
+<div id="q"></div>
+<div id="answers"></div>
+<div id="list"></div>
+<small>עריכה: מילכה ברקו גרש</small>
+<script>
+const elements=[
+{name:"ברזל",symbol:"Fe",metal:true,magnetic:true},
+{name:"נחושת",symbol:"Cu",metal:true,magnetic:false},
+{name:"חמצן",symbol:"O",metal:false,magnetic:false},
+{name:"פחמן",symbol:"C",metal:false,magnetic:false},
+{name:"ניקל",symbol:"Ni",metal:true,magnetic:true},
+{name:"קובלט",symbol:"Co",metal:true,magnetic:true}
+];
+let remain=[...elements];
+const questions=[
+{text:"האם היסוד מתכת?",key:"metal"},
+{text:"האם היסוד מגנטי?",key:"magnetic"}
+];
+function render(){
+ document.getElementById("list").innerHTML=remain.map(e=>`<div class='card'><b>${e.symbol}</b><br>${e.name}</div>`).join("");
+ if(remain.length===1){
+   document.getElementById("q").innerHTML="<h2>מצאתי: "+remain[0].name+"</h2>";
+   document.getElementById("answers").innerHTML="<button onclick='location.reload()'>משחק חדש</button>";
+   return;
+ }
+ let best=questions[0];
+ document.getElementById("q").innerHTML="<h2>"+best.text+"</h2>";
+ document.getElementById("answers").innerHTML="<button onclick='ans(true)'>כן</button><button onclick='ans(false)'>לא</button>";
+}
+function ans(v){
+ remain=remain.filter(e=>e[questions[0].key]===v);
+ questions.push(questions.shift());
+ render();
+}
+render();
+</script>
+</body></html>
