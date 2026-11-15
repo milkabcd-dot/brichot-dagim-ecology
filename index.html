@@ -44,8 +44,10 @@ figure{margin:18px 0;text-align:center}figure img{max-width:100%;border:1px soli
 footer{text-align:center;color:var(--mu)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 header.invite{padding-top:16px}
-.invpic img{display:block;width:100%;border-radius:22px;box-shadow:0 12px 32px rgba(0,0,0,.25)}
-.invpic .ph{height:260px}
+.invpic{aspect-ratio:1600/1070;border-radius:22px;overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,.25);background:linear-gradient(135deg,#cfe8e0,#e8f1e6 50%,#f6ecd0)}
+.invpic img{display:block;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease}
+.invpic img.ready{opacity:1}
+.invpic .ph{height:100%}
 .invtxt{text-align:center;margin-top:16px}
 .invtitle{font-size:clamp(1.4rem,4.5vw,2rem);font-weight:900;color:var(--ac)}
 .invins{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px 16px;margin:10px auto 0;max-width:680px}
@@ -168,9 +170,9 @@ const BEAKS=[ // [קובץ תמונה, שם העוף, מספר, הסבר]
  ["beak-cormorant","קורמורן",7,"מקור ארוך, ישר ומחודד בקצהו, בעל וו קטן בקצה העליון – לוכד באמצעותו דגים, שאותם הוא תופס מתחת למים. ניזון בעיקר מדגים."]];
 const EXT=['png','jpg','jpeg','webp','PNG','JPG','JPEG'],DIRS=['images/',''];
 const CAND=b=>b.split('|').flatMap(n=>DIRS.flatMap(d=>EXT.map(x=>d+n+'.'+x)));
-function nx(el){const c=CAND(el.dataset.b),i=+el.dataset.i+1;if(i<c.length){el.dataset.i=i;el.src=c[i]}else el.outerHTML='<div class=ph>'+el.dataset.b.split('|')[0]+'</div>'}
-const pic=(base,alt)=>{const f=base.split('|')[0];return`<img src="images/${f}.png" alt="${alt}" data-b="${base}" data-i="0" onerror="nx(this)">`};
-document.getElementById('invpic').innerHTML=pic('invitation|הזמנה לפעילות|הזמנה_לפעילות','הזמנה לפעילות: נחל בין בריכות – פסיפס טבע וחיים');
+function nx(el){const c=CAND(el.dataset.b),n=+el.dataset.n+1;if(n<c.length){el.dataset.n=n;el.src=c[(+el.dataset.s+n)%c.length]}else el.outerHTML='<div class=ph>'+el.dataset.b.split('|')[0]+'</div>'}
+const pic=(base,alt,x)=>{const f=base.split('|')[0],e=x||'png';return`<img src="images/${f}.${e}" alt="${alt}" data-b="${base}" data-s="${Math.max(0,CAND(base).indexOf('images/'+f+'.'+e))}" data-n="0" onload="this.classList.add('ready')" onerror="nx(this)">`};
+document.getElementById('invpic').innerHTML=pic('invitation|הזמנה לפעילות|הזמנה_לפעילות','הזמנה לפעילות: נחל בין בריכות – פסיפס טבע וחיים','jpg');
 const shuf=a=>[...a].sort(()=>Math.random()-.5);
 const chips=(l)=>l.map(([k,t])=>`<span class="chip" draggable="true" data-z="${k}">${t}</span>`).join('');
 const zone=(z,cap=1,extra='')=>`<div class="zone ${cap?'cap':''}" data-zone="${z}" data-cap="${cap}">${extra}</div>`;
@@ -178,14 +180,14 @@ const sel=(a,opts)=>`<select data-a="${a}"><option value="">בחרו…</option>
 const mc=(name,a,opts)=>opts.map(o=>`<label class="o"><input type="radio" name="${name}" value="${o}" data-a="${a}"> ${o}</label>`).join('');
 const S=[];
 /* 1 */
-S.push({pre:`<figure>${pic('diagram-1','תרשים זרימה אקולוגי של האזור')}<figcaption>תרשים זרימה אקולוגי של האזור</figcaption></figure>`,t:"תרשים זרימה אקולוגי של האזור",i:"שבצו את המילים מ\"בנק המילים\" בתרשים. אפשר למקם את שני סוגי בתי הגידול בכל צד, והדוגמה שמתחת לכל אחד צריכה להתאים לו.",
+S.push({pre:`<figure>${pic('diagram-1','תרשים זרימה אקולוגי של האזור','jpg')}<figcaption>תרשים זרימה אקולוגי של האזור</figcaption></figure>`,t:"תרשים זרימה אקולוגי של האזור",i:"שבצו את המילים מ\"בנק המילים\" בתרשים. אפשר למקם את שני סוגי בתי הגידול בכל צד, והדוגמה שמתחת לכל אחד צריכה להתאים לו.",
  h:`<div class="pool">${chips(shuf([["top","מרחב נחל תנינים ומעגן מיכאל"],["nat","בתי גידול טבעיים"],["art","בתי גידול מלאכותיים"],["stream","נחל תנינים"],["pond","בריכות דגים"]]))}</div>
  <div class="tree"><div class="top">${zone('top')}</div><div class="lbl">כולל</div><div class="lbl">כולל</div>
  <div>${zone('m1')}</div><div>${zone('m2')}</div><div class="lbl">כמו</div><div class="lbl">כמו</div><div>${zone('l1')}</div><div>${zone('l2')}</div></div>
  <p class="row">בין בתי גידול טבעיים למלאכותיים ההשפעה היא: ${mc('q1a','הדדית',['הדדית','חד-כיוונית'])}</p>
  <p class="row">בין נחל תנינים לבריכות דגים ההשפעה היא: ${mc('q1b','הדדית',['הדדית','חד-כיוונית'])}</p>`});
 /* 2 */
-S.push({pre:`<figure>${pic('diagram-2','תרשים זרימה של בריכות דגים – היבט אקולוגי')}<figcaption>תרשים זרימה של בריכות דגים – היבט אקולוגי</figcaption></figure>`,t:"תרשים זרימה של בריכות דגים – היבט אקולוגי",i:"מיינו כל גורם: האם הוא גורם אביוטי או ביוטי?",
+S.push({pre:`<figure>${pic('diagram-2','תרשים זרימה של בריכות דגים – היבט אקולוגי','jpg')}<figcaption>תרשים זרימה של בריכות דגים – היבט אקולוגי</figcaption></figure>`,t:"תרשים זרימה של בריכות דגים – היבט אקולוגי",i:"מיינו כל גורם: האם הוא גורם אביוטי או ביוטי?",
  h:`<div class="pool">${chips(shuf([["ab","עומק המים"],["ab","ריכוז החמצן"],["ab","שיפוע הגדות"],["bi","צמחיית הגדה"],["bi","צפיפות הדגים"],["bi","מספר ומגוון העופות"]]))}</div>
  <div class="baskets"><div><b>גורמים אביוטיים</b>${zone('ab',0)}</div><div><b>גורמים ביוטיים</b>${zone('bi',0)}</div></div>
  <p class="row">גורמים ביוטיים הם: ${mc('q2','גורמים חיים',['גורמים חיים','גורמים דוממים'])}</p>
@@ -193,7 +195,7 @@ S.push({pre:`<figure>${pic('diagram-2','תרשים זרימה של בריכות 
  <p class="ins">בתרשים, הגורמים יכולים להשפיע זה על זה. בחרו לכל זוג את סוג ההשפעה.</p>
  ${shuf([["שיפוע הגדות","ריכוז החמצן",1],["עומק המים","ריכוז החמצן",1],["ריכוז החמצן","צפיפות הדגים",0],["צפיפות הדגים","מספר ומגוון העופות",0],["מספר ומגוון העופות","צמחיית הגדה",0],["שיפוע הגדות","צמחיית הגדה",0],["שיפוע הגדות","מספר ומגוון העופות",1],["עומק המים","מספר ומגוון העופות",1]]).map(([A,B,o])=>`<div class="row"><span>בין <b>${A}</b> לבין <b>${B}</b>:</span>${sel(o?`${A} משפיע על ${B}`:'השפעה הדדית',[`${A} משפיע על ${B}`,`${B} משפיע על ${A}`,'השפעה הדדית'])}</div>`).join('')}`});
 /* 3 */
-S.push({pre:`<figure class="banner">${pic('birds-sorting-activity','תצפית עופות בבריכות הדגים – מיון')}</figure>`,t:"תצפית עופות בבריכות הדגים – מיון",i:"עופות ניתן למיין לפי מבנה גוף, סוג המזון ושהות בארץ. מיינו כל מילה לקבוצה המתאימה.",
+S.push({pre:`<figure class="banner">${pic('birds-sorting-activity','תצפית עופות בבריכות הדגים – מיון','jpg')}</figure>`,t:"תצפית עופות בבריכות הדגים – מיון",i:"עופות ניתן למיין לפי מבנה גוף, סוג המזון ושהות בארץ. מיינו כל מילה לקבוצה המתאימה.",
  h:`<div class="pool">${chips(shuf([["body","מקור"],["body","צוואר"],["body","צבע הגוף"],["body","רגליים"],["body","גודל הגוף"],["body","סימנים מיוחדים"],["food","פגרי דגים"],["food","חסרי חוליות קטנים"],["food","דגים ודגיגונים"],["food","פלנקטון"],["food","מזון צמחי"],["stay","חולפות"],["stay","חורפות"],["stay","מקייצות"],["stay","יציבות"]]))}</div>
  <div class="baskets" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))"><div><b>מבנה גוף</b>${zone('body',0)}</div><div><b>סוג המזון</b>${zone('food',0)}</div><div><b>שהות בארץ</b>${zone('stay',0)}</div></div>`});
 /* 4 */
@@ -202,7 +204,7 @@ S.push({t:"תרשים 4: התאמת מבנה לתפקיד – מקור",i:"א. �
  <div class="cards">${BEAKS.map(b=>`<div class="card">${pic(b[0],'מקור של '+b[1])}${zone(b[1])}</div>`).join('')}</div>
  <div class="row"><button type="button" id="chkA">בדיקה</button><button type="button" class="g" id="rstA">איפוס</button><span class="fb" id="fbA" role="status" aria-live="polite"></span></div>
  <h3>ב. עופות במסכה – מי אני ומה שמי?</h3>
- <div id="mb"><div class="mbcard"><div class="mask">${pic('masked-birds-icon','עופות במסכה – מי אני?')}</div><div id="mbq"></div></div><div class="mbs"><span id="mbs"></span><span class="snd" id="snd" role="button" tabindex="0">🔊 צליל פועל</span></div></div>`,
+ <div id="mb"><div class="mbcard"><div class="mask">${pic('masked-birds-icon','עופות במסכה – מי אני?','jpg')}</div><div id="mbq"></div></div><div class="mbs"><span id="mbs"></span><span class="snd" id="snd" role="button" tabindex="0">🔊 צליל פועל</span></div></div>`,
  custom:true});
 /* 5 */
 S.push({custom:true,t:"מקור של הצלחה – עופות מים",i:"השלימו את החסר ובחרו את התשובות הנכונות. על כל שאלה שתיפתר נכון ייחשפו שני חלקים מהתמונה המסתורית.",
@@ -288,7 +290,7 @@ document.getElementById('rstA').onclick=()=>{const e=document.getElementById('s3
 (()=>{const $=id=>document.getElementById(id);const tiles=$('tiles');
  for(let i=0;i<12;i++){const t=document.createElement('div');t.className='tile';tiles.appendChild(t)}
  /* טעינת התמונה המסתורית: aquaculture-and-ecosystems, ואם אין אותה – התמונה מהקוד המקורי */
- (()=>{const n='aquaculture-and-ecosystems',L=[...(typeof EMB!=='undefined'&&EMB[n]?[EMB[n]]:[]),...CAND(n),'https://2all.co.il/web/Sites5/madakef/209923_2955.webp'];let i=0;
+ (()=>{const n='aquaculture-and-ecosystems',L=[...(typeof EMB!=='undefined'&&EMB[n]?[EMB[n]]:[]),...CAND(n).sort((a,b)=>b.endsWith('.jpg')-a.endsWith('.jpg')),'https://2all.co.il/web/Sites5/madakef/209923_2955.webp'];let i=0;
   (function go(){if(i>=L.length)return;const u=L[i++],im=new Image();im.onload=()=>{tiles.style.setProperty('--mimg','url("'+u+'")');$('pframe').style.aspectRatio=im.naturalWidth+'/'+im.naturalHeight};im.onerror=go;im.src=u})()})();
  const solved=new Set();
  const answers={
