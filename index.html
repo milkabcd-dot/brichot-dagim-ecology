@@ -42,6 +42,13 @@ label.o{display:inline-block;margin:2px 8px;padding:2px 8px;border-radius:8px;bo
 #total{position:sticky;bottom:0;background:var(--ac);color:#fff;text-align:center;padding:10px;font-weight:700}
 figure{margin:18px 0;text-align:center}figure img{max-width:100%;border:1px solid var(--bd);border-radius:10px;background:#fff}figcaption{color:var(--mu);font-size:.9rem}
 footer{text-align:center;color:var(--mu)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+header.invite{padding-top:16px}
+.invpic img{display:block;width:100%;border-radius:22px;box-shadow:0 12px 32px rgba(0,0,0,.25)}
+.invpic .ph{height:260px}
+.invtxt{text-align:center;margin-top:16px}
+.invtitle{font-size:clamp(1.4rem,4.5vw,2rem);font-weight:900;color:var(--ac)}
+.invins{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px 16px;margin:10px auto 0;max-width:680px}
 header.hero{max-width:none;margin:0;padding:34px 16px 40px;color:#fff;text-align:center;background:radial-gradient(circle at 15% 20%,rgba(255,255,255,.18),transparent 40%),linear-gradient(135deg,#0d5c63 0%,#2f7d5b 50%,#5aa469 100%);border-radius:0 0 34px 34px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
 .hero .hin{max-width:860px;margin:0 auto}
 .hero .kick{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:4px 18px;font-weight:700;letter-spacing:.5px}
@@ -129,13 +136,14 @@ figure.banner{margin:8px 0 14px}figure.banner img{border:0;border-radius:12px;ba
 </style>
 </head>
 <body>
-<header class="hero"><div class="hin">
-<div class="kick">🦆 חידון אינטראקטיבי: מסע אקולוגי</div>
-<h1>בין נחל לבריכות – פסיפס של טבע וחיים</h1>
-<div class="sub">מעגן מיכאל</div>
-<p><b>הנחיות:</b> גררו את המילים למקום הנכון (במסך מגע: לחצו על מילה ואז על המקום), ולחצו "בדיקה".</p>
-<span class="cr">© מילכה ברקו גרש</span>
-</div></header>
+<header class="invite">
+<h1 class="sr">בין נחל לבריכות – פסיפס של טבע וחיים</h1>
+<div class="invpic" id="invpic"></div>
+<div class="invtxt">
+<div class="invtitle">חידון אינטראקטיבי: מסע אקולוגי</div>
+<p class="invins"><b>הנחיות:</b> גררו את המילים למקום הנכון (במסך מגע: לחצו על מילה ואז על המקום), ולחצו "בדיקה".</p>
+</div>
+</header>
 <script>window.onerror=function(m,u,l){document.body.insertAdjacentHTML('afterbegin','<pre style="background:#fee;color:#900;padding:8px;direction:ltr;white-space:pre-wrap">JS error: '+m+' (line '+l+')</pre>')}</script>
 <main id="m"></main>
 <div id="total">ציון: –</div>
@@ -159,9 +167,10 @@ const BEAKS=[ // [קובץ תמונה, שם העוף, מספר, הסבר]
  ["beak-flamingo","פלמינגו",6,"מקור עבה ומעוקל כלפי מטה, בעל לוחיות סינון זעירות – מסנן את המים והבוץ בעזרת תנועות הלשון והמקור, ולוכד סרטנים זעירים, אצות ואורגניזמים קטנים."],
  ["beak-cormorant","קורמורן",7,"מקור ארוך, ישר ומחודד בקצהו, בעל וו קטן בקצה העליון – לוכד באמצעותו דגים, שאותם הוא תופס מתחת למים. ניזון בעיקר מדגים."]];
 const EXT=['png','jpg','jpeg','webp','PNG','JPG','JPEG'],DIRS=['images/',''];
-const CAND=b=>DIRS.flatMap(d=>EXT.map(x=>d+b+'.'+x));
-function nx(el){const c=CAND(el.dataset.b),i=+el.dataset.i+1;if(i<c.length){el.dataset.i=i;el.src=c[i]}else el.outerHTML='<div class=ph>'+el.dataset.b+'</div>'}
-const pic=(base,alt)=>`<img src="images/${base}.png" alt="${alt}" data-b="${base}" data-i="0" onerror="nx(this)">`;
+const CAND=b=>b.split('|').flatMap(n=>DIRS.flatMap(d=>EXT.map(x=>d+n+'.'+x)));
+function nx(el){const c=CAND(el.dataset.b),i=+el.dataset.i+1;if(i<c.length){el.dataset.i=i;el.src=c[i]}else el.outerHTML='<div class=ph>'+el.dataset.b.split('|')[0]+'</div>'}
+const pic=(base,alt)=>{const f=base.split('|')[0];return`<img src="images/${f}.png" alt="${alt}" data-b="${base}" data-i="0" onerror="nx(this)">`};
+document.getElementById('invpic').innerHTML=pic('invitation|הזמנה לפעילות|הזמנה_לפעילות','הזמנה לפעילות: נחל בין בריכות – פסיפס טבע וחיים');
 const shuf=a=>[...a].sort(()=>Math.random()-.5);
 const chips=(l)=>l.map(([k,t])=>`<span class="chip" draggable="true" data-z="${k}">${t}</span>`).join('');
 const zone=(z,cap=1,extra='')=>`<div class="zone ${cap?'cap':''}" data-zone="${z}" data-cap="${cap}">${extra}</div>`;
