@@ -181,7 +181,7 @@ const sel=(a,opts)=>`<select data-a="${a}"><option value="">בחרו…</option>
 const mc=(name,a,opts)=>opts.map(o=>`<label class="o"><input type="radio" name="${name}" value="${o}" data-a="${a}"> ${o}</label>`).join('');
 const S=[];
 /* 1 */
-S.push({pre:`<figure>${pic('diagram-1','מפת מושגים אקולוגית של האזור','jpg')}<figcaption>מפת מושגים אקולוגית של האזור</figcaption></figure>`,t:"מפת מושגים אקולוגית של האזור",i:"שבצו את המילים מ\"בנק המילים\" בתרשים. אפשר למקם את שני סוגי בתי הגידול בכל צד, והדוגמה שמתחת לכל אחד צריכה להתאים לו.",
+S.push({pre:`<figure>${pic('concept-map-1|diagram-1','מפת מושגים אקולוגית של האזור','jpg')}<figcaption>מפת מושגים אקולוגית של האזור</figcaption></figure>`,t:"מפת מושגים אקולוגית של האזור",i:"שבצו את המילים מ\"בנק המילים\" בתרשים. אפשר למקם את שני סוגי בתי הגידול בכל צד, והדוגמה שמתחת לכל אחד צריכה להתאים לו.",
  h:`<div class="pool">${chips(shuf([["top","מרחב נחל תנינים ומעגן מיכאל"],["nat","בתי גידול טבעיים"],["art","בתי גידול מלאכותיים"],["stream","נחל תנינים"],["pond","בריכות דגים"]]))}</div>
  <div class="tree"><div class="top">${zone('top')}</div><div class="lbl">כולל</div><div class="lbl">כולל</div>
  <div>${zone('m1')}</div><div>${zone('m2')}</div><div class="lbl">כמו</div><div class="lbl">כמו</div><div>${zone('l1')}</div><div>${zone('l2')}</div></div>
